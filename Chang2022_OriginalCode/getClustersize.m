@@ -1,4 +1,4 @@
-function tracks = getClustersize_SiMpull(tracks)
+function tracks = getClustersize(tracks)
 %Input: convert tracking result as tracks = convert_Utrack(tracksFinal)
 %Input: when dialog bix pop up, choose folder contains farred frames as
 %image sequence

@@ -1,4 +1,4 @@
-function tracks = getClustersize_SiMpull_10frames(tracks)
+function tracks = getClustersize_10frames(tracks)
 tracks  = PickLongTracks(10,tracks);
 %Input: convert tracking result as tracks = convert_Utrack(tracksFinal)
 %Input: when dialog bix pop up, choose folder contains farred frames as
