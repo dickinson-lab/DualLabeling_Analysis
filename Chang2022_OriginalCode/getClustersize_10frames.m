@@ -43,10 +43,13 @@ farredframe_getsize = imread(F);%get a farred frame to calculate img size
 [ymax, xmax] = size(farredframe_getsize); 
 [ntracks, ~] = size(tracks);
 for c = 1:ntracks
-    for d = 1 : 10
-        if  (min(tracks(c).x(d),tracks(c).y(d))<6 || tracks(c).x(d)>xmax-5 || tracks(c).y(d)>ymax-5)
+    mincoord = [min(tracks(c).x(1:10)) min(tracks(c).y(1:10))];
+    mintf = transformPointsInverse(regData.Transformation, mincoord(1), mincoord(2)) ;
+    maxcoord = [max(tracks(c).x(1:10)) max(tracks(c).y(1:10))];
+    maxtf = transformPointsInverse(regData.Transformation, maxcoord(1), maxcoord(2)) ;
+    if  any(mincoord<6) || any(mintf<6) || any(maxcoord > [xmax-5 ymax-5]) || any(maxtf > [xmax-5 ymax-5])
             tracks(c,:) = [];
-        end
+        
     end
 end
 [ntracks, ~] = size(tracks);

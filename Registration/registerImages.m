@@ -15,7 +15,7 @@ fixedRefObj = imref2d(size(FIXED));
 movingRefObj = imref2d(size(MOVING));
 
 % Phase correlation
-tform = imregcorr(MOVING,movingRefObj,FIXED,fixedRefObj,'transformtype','similarity','Window',true);
+tform = imregcorr(MOVING,movingRefObj,FIXED,fixedRefObj,'transformtype','rigid','Window',true);
 MOVINGREG.Transformation = tform;
 MOVINGREG.RegisteredImage = imwarp(MOVING, movingRefObj, tform, 'OutputView', fixedRefObj, 'SmoothEdges', true);
 
