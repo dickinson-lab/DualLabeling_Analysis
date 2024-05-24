@@ -45,10 +45,8 @@ farredframe_getsize = imread(F);%get a farred frame to calculate img size
 index = true(ntracks,1);
 for c = 1:ntracks
     mincoord = [min(tracks(c).x(1:10)) min(tracks(c).y(1:10))];
-    [mintf(1), mintf(2)] = transformPointsInverse(regData.Transformation, mincoord(1), mincoord(2)) ;
     maxcoord = [max(tracks(c).x(1:10)) max(tracks(c).y(1:10))];
-    [maxtf(1), maxtf(2)] = transformPointsInverse(regData.Transformation, maxcoord(1), maxcoord(2)) ;
-    if  any(mincoord<6) || any(mintf<6) || any(maxcoord > [xmax-5 ymax-5]) || any(maxtf > [xmax-5 ymax-5])
+    if  any(mincoord<6) || any(maxcoord > [xmax-5 ymax-5]) 
         index(c) = false;
     end
 end
@@ -90,6 +88,12 @@ for n = 1:ntracks
             [xcoord,ycoord] = transformPointsInverse(regData.Transformation, xcoord, ycoord) ;
             xcoord = round(xcoord);
             ycoord = round(ycoord);
+        end
+
+        %Skip this peak if it's too close to the edge
+        if xcoord < 6 || ycoord < 6 || xcoord > (xmax-5) || ycoord > (ymax-5)
+            tracks(n).(['size_' channel]) = NaN;
+            continue
         end
 
         %Calculate the background and perform the subtraction
