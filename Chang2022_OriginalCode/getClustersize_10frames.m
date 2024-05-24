@@ -42,16 +42,17 @@ F = fullfile(folder,fileList(1).name);
 farredframe_getsize = imread(F);%get a farred frame to calculate img size
 [ymax, xmax] = size(farredframe_getsize); 
 [ntracks, ~] = size(tracks);
+index = true(ntracks,1);
 for c = 1:ntracks
     mincoord = [min(tracks(c).x(1:10)) min(tracks(c).y(1:10))];
-    mintf = transformPointsInverse(regData.Transformation, mincoord(1), mincoord(2)) ;
+    [mintf(1), mintf(2)] = transformPointsInverse(regData.Transformation, mincoord(1), mincoord(2)) ;
     maxcoord = [max(tracks(c).x(1:10)) max(tracks(c).y(1:10))];
-    maxtf = transformPointsInverse(regData.Transformation, maxcoord(1), maxcoord(2)) ;
+    [maxtf(1), maxtf(2)] = transformPointsInverse(regData.Transformation, maxcoord(1), maxcoord(2)) ;
     if  any(mincoord<6) || any(mintf<6) || any(maxcoord > [xmax-5 ymax-5]) || any(maxtf > [xmax-5 ymax-5])
-            tracks(c,:) = [];
-        
+        index(c) = false;
     end
 end
+tracks = tracks(index);
 [ntracks, ~] = size(tracks);
     
 
